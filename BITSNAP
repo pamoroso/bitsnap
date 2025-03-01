@@ -1,0 +1,133 @@
+(DEFINE-FILE-INFO PACKAGE "INTERLISP" READTABLE "INTERLISP" BASE 10)
+
+(FILECREATED " 1-Mar-2025 17:15:56" {DSK}<home>paolo>il>bitsnap>BITSNAP.;6 6520   
+
+      :EDIT-BY "PA"
+
+      :CHANGES-TO (VARS BITSNAPCOMS)
+
+      :PREVIOUS-DATE " 1-Mar-2025 14:30:44" {DSK}<home>paolo>il>bitsnap>BITSNAP.;5)
+
+
+(PRETTYCOMPRINT BITSNAPCOMS)
+
+(RPAQQ BITSNAPCOMS
+       ((* A screenshot capture tool for Medley Interlisp. It can capture screenshots of the the full
+           screen, a window or its interior, or an arbitrary area.)
+        (FNS BMTOPBM PROMPTFORW SNAP)
+        [DECLARE%: DONTEVAL@LOAD DOCOPY
+               (ADDVARS (BackgroundMenuCommands
+                         ("Screenshot" '(SNAP NIL T)
+                                "Captures and saves the full screen."
+                                (SUBITEMS ("Screen" '(SNAP NIL T)
+                                                 "Captures and saves the full screen.")
+                                       ("Window" '(SNAP 'WINDOW T)
+                                              
+                                             "Captures and saves a window with title bar and border."
+                                              (SUBITEMS ("Full" '(SNAP 'WINDOW T)
+                                                               
+                                             "Captures and saves a window with title bar and border."
+                                                               )
+                                                     ("Interior" '(SNAP 'INTERIOR T)
+                                                            
+                                          "Captures and saves a window without title bar and border."
+                                                            )))
+                                       ("Selected" '(SNAP 'SELECTION T)
+                                              "Captures and saves an arbitrary screen area."]
+        (P (SETQ BackgroundMenu))
+        (FILES BITMAPFNS)))
+
+
+
+(* A screenshot capture tool for Medley Interlisp. It can capture screenshots of the the full screen, 
+a window or its interior, or an arbitrary area.)
+
+(DEFINEQ
+
+(BMTOPBM
+  [LAMBDA (BITMAP FILE)                                      (* ; "Edited 28-Feb-2025 18:12 by PA")
+                                                             (* Save BITMAP to FILE in PBM format 
+                                                             and return BITMAP.)
+    (LET [(WIDTH (BITMAPWIDTH BITMAP))
+          (HEIGHT (BITMAPHEIGHT BITMAP))
+          (STREAM (OPENSTREAM FILE 'OUTPUT]
+         (RESETLST
+             (RESETSAVE NIL (LIST 'CLOSEF STREAM))
+             (PRINTOUT STREAM "P1" T)
+             (PRINTOUT STREAM WIDTH %, HEIGHT T T)           (* Lines of PBM files should have no 
+                                                             more than 70 characters.)
+             (for Y from (SUB1 HEIGHT) to 0 by -1
+                do (bind (N _ 0) for X from 0 to (SUB1 WIDTH)
+                      do (if (EQP N 70)
+                             then (TERPRI STREAM)
+                                  (SETQ N 0))
+                         (PRINTOUT STREAM (BITMAPBIT BITMAP X Y))
+                         (SETQ N (ADD1 N)))
+                   (TERPRI STREAM)))
+         BITMAP])
+
+(PROMPTFORW
+  [LAMBDA NIL                                                (* ; "Edited 28-Feb-2025 18:36 by PA")
+
+         (* Prompt the user to indicate a window. Displays in the prompt window a message 
+         that advises to place the cursor over a window, waits for the user to press 
+         ENTER, and returns the window the pointer is over.)
+
+    (FRESHLINE PROMPTWINDOW)
+    (PROMPTFORWORD "Place the mouse pointer over the desired window and press ENTER." NIL NIL 
+           PROMPTWINDOW)
+    (WHICHW])
+
+(SNAP
+  [LAMBDA (WHAT WHERE)                                       (* ; "Edited  1-Mar-2025 14:28 by PA")
+
+         (* Capture the area of the screen indicated by WHAT, save it to the destination 
+         indicated by WHERE, and return a bitmap of the area.
+         WHAT can be NIL for the full screen, WINDOW for a window including the title bar 
+         and border, INTERIOR for a window with no title or border, or SELECTION for an 
+         arbitrary area. WHERE can be NIL to not save, T to prompt the user for a file 
+         name, or a file name.)
+
+    (LET [(BITMAP (SELECTQ WHAT
+                      (WINDOW (WINDOW.BITMAP (PROMPTFORW)))
+                      (INTERIOR (BITMAPCOPY (PROMPTFORW)))
+                      (SELECTION (SNAPW))
+                      (BITMAPCOPY (SCREENBITMAP]
+         [AND WHERE (BMTOPBM BITMAP (if (EQ WHERE T)
+                                        then (FRESHLINE PROMPTWINDOW)
+                                             (PROMPTFORWORD "File name:" "screenshot.pbm" NIL 
+                                                    PROMPTWINDOW)
+                                      else (MKSTRING WHERE]
+         (if (NOT (EQ WHAT 'SELECTION))
+             then (WINDOWBM (if (NULL WHAT)
+                                then (SHRINKBITMAP BITMAP 2 2)
+                              else BITMAP)))
+         BITMAP])
+)
+(DECLARE%: DONTEVAL@LOAD DOCOPY 
+
+(ADDTOVAR BackgroundMenuCommands
+          ("Screenshot" '(SNAP NIL T)
+                 "Captures and saves the full screen."
+                 (SUBITEMS ("Screen" '(SNAP NIL T)
+                                  "Captures and saves the full screen.")
+                        ("Window" '(SNAP 'WINDOW T)
+                               "Captures and saves a window with title bar and border."
+                               (SUBITEMS ("Full" '(SNAP 'WINDOW T)
+                                                
+                                             "Captures and saves a window with title bar and border."
+                                                )
+                                      ("Interior" '(SNAP 'INTERIOR T)
+                                             
+                                          "Captures and saves a window without title bar and border."
+                                             )))
+                        ("Selected" '(SNAP 'SELECTION T)
+                               "Captures and saves an arbitrary screen area."))))
+)
+
+(SETQ BackgroundMenu)
+
+(FILESLOAD BITMAPFNS)
+(DECLARE%: DONTCOPY
+  (FILEMAP (NIL (2163 5347 (BMTOPBM 2173 . 3368) (PROMPTFORW 3370 . 3908) (SNAP 3910 . 5345)))))
+STOP
