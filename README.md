@@ -53,7 +53,7 @@ In turn `Window` has a submenu with items for capturing the following portions o
 
 When selecting `Window`, `Full`, or `Interior` follow the instructions in the prompt window (the black one) to designate the window to capture.
 
-After the capture Bitsnap will ask in the prompt window to enter a file name to save the image to. It will then save the file and display the image for feedback in a window, which may be closed with the usual `Close` item of the right-click menu. The displayed image has the original size of the captured area, except for the full screen which Bitsnap displays at half size.
+After the capture Bitsnap will ask in the prompt window to enter a file name to save the image to, and it will use the default `screenshot.pbm` if none is entered. It will then save the file and display for feedback the image in a window, which may be closed with the usual `Close` item of the right-click menu. The displayed image has the original size of the captured area, except for the full screen which Bitsnap displays at half size.
 
 
 ### Calling from Lisp

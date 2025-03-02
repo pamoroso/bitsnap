@@ -1,12 +1,12 @@
 (DEFINE-FILE-INFO PACKAGE "INTERLISP" READTABLE "INTERLISP" BASE 10)
 
-(FILECREATED " 1-Mar-2025 17:15:56" {DSK}<home>paolo>il>bitsnap>BITSNAP.;6 6520   
+(FILECREATED " 2-Mar-2025 13:16:14" {DSK}<home>paolo>il>bitsnap>BITSNAP.;7 6731   
 
       :EDIT-BY "PA"
 
-      :CHANGES-TO (VARS BITSNAPCOMS)
+      :CHANGES-TO (FNS SNAP)
 
-      :PREVIOUS-DATE " 1-Mar-2025 14:30:44" {DSK}<home>paolo>il>bitsnap>BITSNAP.;5)
+      :PREVIOUS-DATE " 1-Mar-2025 17:15:56" {DSK}<home>paolo>il>bitsnap>BITSNAP.;6)
 
 
 (PRETTYCOMPRINT BITSNAPCOMS)
@@ -79,7 +79,7 @@ a window or its interior, or an arbitrary area.)
     (WHICHW])
 
 (SNAP
-  [LAMBDA (WHAT WHERE)                                       (* ; "Edited  1-Mar-2025 14:28 by PA")
+  [LAMBDA (WHAT WHERE)                                       (* ; "Edited  2-Mar-2025 13:14 by PA")
 
          (* Capture the area of the screen indicated by WHAT, save it to the destination 
          indicated by WHERE, and return a bitmap of the area.
@@ -95,9 +95,11 @@ a window or its interior, or an arbitrary area.)
                       (BITMAPCOPY (SCREENBITMAP]
          [AND WHERE (BMTOPBM BITMAP (if (EQ WHERE T)
                                         then (FRESHLINE PROMPTWINDOW)
-                                             (PROMPTFORWORD "File name:" "screenshot.pbm" NIL 
-                                                    PROMPTWINDOW)
-                                      else (MKSTRING WHERE]
+                                             (OR (PROMPTFORWORD "File name:" "screenshot.pbm" NIL 
+                                                        PROMPTWINDOW)
+                                                 "screenshot.pbm")
+                                      else (MKSTRING WHERE]  (* SNAPW already displays the captured 
+                                                             area, so no need to do it again.)
          (if (NOT (EQ WHAT 'SELECTION))
              then (WINDOWBM (if (NULL WHAT)
                                 then (SHRINKBITMAP BITMAP 2 2)
@@ -129,5 +131,5 @@ a window or its interior, or an arbitrary area.)
 
 (FILESLOAD BITMAPFNS)
 (DECLARE%: DONTCOPY
-  (FILEMAP (NIL (2163 5347 (BMTOPBM 2173 . 3368) (PROMPTFORW 3370 . 3908) (SNAP 3910 . 5345)))))
+  (FILEMAP (NIL (2155 5558 (BMTOPBM 2165 . 3360) (PROMPTFORW 3362 . 3900) (SNAP 3902 . 5556)))))
 STOP
