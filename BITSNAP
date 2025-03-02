@@ -1,12 +1,12 @@
 (DEFINE-FILE-INFO PACKAGE "INTERLISP" READTABLE "INTERLISP" BASE 10)
 
-(FILECREATED " 2-Mar-2025 13:16:14" {DSK}<home>paolo>il>bitsnap>BITSNAP.;7 6731   
+(FILECREATED " 2-Mar-2025 14:22:15" {DSK}<home>paolo>il>bitsnap>BITSNAP.;8 6857   
 
       :EDIT-BY "PA"
 
-      :CHANGES-TO (FNS SNAP)
+      :CHANGES-TO (FNS PROMPTFORW)
 
-      :PREVIOUS-DATE " 1-Mar-2025 17:15:56" {DSK}<home>paolo>il>bitsnap>BITSNAP.;6)
+      :PREVIOUS-DATE " 2-Mar-2025 13:16:14" {DSK}<home>paolo>il>bitsnap>BITSNAP.;7)
 
 
 (PRETTYCOMPRINT BITSNAPCOMS)
@@ -67,15 +67,16 @@ a window or its interior, or an arbitrary area.)
          BITMAP])
 
 (PROMPTFORW
-  [LAMBDA NIL                                                (* ; "Edited 28-Feb-2025 18:36 by PA")
+  [LAMBDA NIL                                                (* ; "Edited  2-Mar-2025 14:20 by PA")
+                                                             (* ; "Edited 28-Feb-2025 18:36 by PA")
 
          (* Prompt the user to indicate a window. Displays in the prompt window a message 
-         that advises to place the cursor over a window, waits for the user to press 
-         ENTER, and returns the window the pointer is over.)
+         that advises to place the pointer over a window, waits for the user to click a 
+         mouse button, and returns the window the pointer is over.)
 
     (FRESHLINE PROMPTWINDOW)
-    (PROMPTFORWORD "Place the mouse pointer over the desired window and press ENTER." NIL NIL 
-           PROMPTWINDOW)
+    (MOUSECONFIRM "Place the pointer over the desired window." "Click any button to proceed." 
+           PROMPTWINDOW T)
     (WHICHW])
 
 (SNAP
@@ -131,5 +132,5 @@ a window or its interior, or an arbitrary area.)
 
 (FILESLOAD BITMAPFNS)
 (DECLARE%: DONTCOPY
-  (FILEMAP (NIL (2155 5558 (BMTOPBM 2165 . 3360) (PROMPTFORW 3362 . 3900) (SNAP 3902 . 5556)))))
+  (FILEMAP (NIL (2161 5684 (BMTOPBM 2171 . 3366) (PROMPTFORW 3368 . 4026) (SNAP 4028 . 5682)))))
 STOP
