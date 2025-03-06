@@ -79,6 +79,7 @@ If `where` is `NIL` the function doesn't save the captured area but still return
 
 ## Learn more
 
+* [Bitsnap project updates](https://write.as/paoloamoroso/tag:Bitsnap)
 * [Medley Interlisp](https://interlisp.org)
 
 
